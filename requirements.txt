@@ -1,0 +1,2 @@
+# Runtime dependencies: none beyond the Python 3.13 standard library.
+# Pillow is only needed at build time (src/image_pipeline.py), never at runtime.
