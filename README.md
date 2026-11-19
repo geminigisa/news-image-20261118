@@ -1,76 +1,72 @@
-# THE WORLD TODAY — Wednesday, November 18, 2026
+# news-image-20261118
 
-A single-image editorial front page summing up the world's news of
-Wednesday, 18 November 2026, built for the make.fun competition
-`news-image-20261118`.
+[![make.fun · news-image-20261118](https://make.fun/badge/news-image-20261118.svg)](https://make.fun/bounty/news-image-20261118?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261118)
+[![rank](https://make.fun/badge/news-image-20261118/geminigisa/news-image-20261118/rank.svg)](https://make.fun/bounty/news-image-20261118/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261118)
+[![reward](https://make.fun/badge/news-image-20261118/geminigisa/news-image-20261118/reward.svg)](https://make.fun/bounty/news-image-20261118?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261118)
 
-## The image
+Entry for make.fun's bounty **"Sum up 18 November's world news in one image"**
+([news-image-20261118](https://make.fun/bounty/news-image-20261118)).
 
-`assets/master.png` (1024×1024, under 1 MiB) is a premium international
-newspaper front page: masthead **THE WORLD TODAY**, the date
-**WEDNESDAY · NOVEMBER 18 · 2026**, a large world map with nine numbered
-geographic markers, and six region panels — Middle East & Gulf,
-Asia-Pacific, Africa, Americas, Oceania, Global — carrying 9 major
-stories plus 5 further verified developments. Tagline:
-**6 CONTINENTS. ONE CONNECTED WORLD.**
+`main.py` (Python 3.13, standard library only) checks the bounty's output caps
+and copies `entry.png` to `/output/entry.png`. The image is a 1024×1024
+broadsheet-style front page carrying **36 stories, every one occurring or first
+reported on Wednesday 18 November 2026 (UTC)**: 3 illustrated leads (the Gulf
+strikes drawn as an annotated evidence map), 10 numbered grid stories and 23
+numbered briefs, with dual region/field tally bars, a UTC day-by-hours ticker,
+a navy-and-gold key-figures band, a "Where it happened" locator map and a DATE
+CHECK box reasoning about earlier-week items and the Thursday events that lie
+ahead. All artwork is original geometric drawing rendered by
+`tools/make_image.py` (Pillow) at 2× with gradient skies and a deterministic
+paper grain, downsampled with Lanczos; no photographs or third-party art.
 
-The background map art (`assets/bg.png`) was generated in-session; all
-text is a Pillow overlay, so every headline is sharp and legible — no
-model-generated text anywhere.
+- **Leads:** Iran's first strikes in two months hit US sites in Kuwait and
+  Bahrain after the US strike on Qeshm Island; Anthropic prices the biggest
+  IPO ever at $83 a share ($81.3bn, ~$1.5tn); GTA VI unlocks first in New
+  Zealand at 11:00 GMT, rolling west through the night.
+- **Grid:** the EU's proposed €45bn loan for Kyiv; Gaza's first tank advance
+  since the ceasefire; Jeffries' 251–11 speaker nomination; Voyager 1 reaching
+  one light-day; the Fed's "close call" October minutes; South Florida's flood
+  school closures; Cyclone Akvan's 50,000 evacuations; COP31's finance
+  deadlock session; Suneung eve's anti-cheat scramble; Van Gogh's record
+  $190.4m auction.
+- **Briefs (14–36):** Peltola's Alaska win confirmed (Senate 56–44), the US
+  losing measles-free status, Nepal's disaster appeal, Delhi smog inspections,
+  London's blackout hoax, Hormuz, Ella Langley's CMA sweep, Houston upsetting
+  No. 1 Florida, Pew's religion projections, Robert Pattinson as Bond, Waymo's
+  freeway halt, Nvidia's doubled revenue, Intel cuts, the Lutnick–Nvidia
+  probe, a pulled FDA nominee, an Iranian agent sentenced, outage fears
+  dismissed, Trump's Shenzhen arrival, the Heat's Vice City court, on-this-day
+  history, Kenya's last Ebola patient discharged, the UN's Sudan civilian
+  toll, and Stojakovic's 46 against Duke.
 
-## Stories in the image (all verified for 18 November 2026)
+Facts as reported on 18 Nov 2026 by Reuters, AP, AFP, BBC, Al Jazeera,
+Euronews, CNBC, NPR, NASA, the European Commission, the Fed, Pew Research,
+Sotheby's, allAfrica and The Morning Brief; disputed claims are attributed,
+not stated as fact.
 
-1. **Iran hits U.S. bases in the Gulf** — Iran strikes Ali Al Salem base
-   in Kuwait; Bahrain intercepts a third attack in a week; a Houthi
-   cruise missile bound for Riyadh is destroyed. (Reuters)
-2. **Xi, Putin set stage for Trump** — APEC, Shenzhen: Xi pledges to
-   fight protectionism; Putin denounces sanctions. The trilateral
-   summit is Thursday 19 November. (Reuters)
-3. **Peltola wins Alaska Senate** — Democrat Mary Peltola beats
-   incumbent Dan Sullivan 50%–46%; first Alaska Native in the U.S.
-   Senate. (Reuters, USA Today)
-4. **Ebola: 11,000+ cases, 5,300+ dead** — DR Congo outbreak "still out
-   of control" six months on; 8 provinces; 1,737 children dead.
-   (Reuters, Al Jazeera, Africa CDC)
-5. **Sudan drone war kills 160+** — 160+ killed in recent drone
-   strikes; UN counts 2,230 civilians killed Jan–Oct 2026, mostly by
-   drones. (Al Jazeera, UN)
-6. **Bangladesh garment unrest** — Day 3: workers block the
-   Dhaka–Mymensingh road; ~500 factories shut since Saturday; wage
-   demand Tk 30,000/month. (Al Jazeera, The Business Standard)
-7. **Cyclone Xavier hits Cook Islands** — Category 5: winds 220 km/h,
-   gusts to 315 km/h; heading for Samoa. No casualties reported yet.
-   (Fiji Met Service, MetService NZ, RNZ)
-8. **Australia sanctions West Bank settlers** — Sanctions on 3 people
-   and 4 groups over illegal settlements; coordinated with the UK.
-   (Amnesty, ABC)
-9. **Anthropic prices $1.4T IPO** — Pricing set Wednesday; Nasdaq
-   debut as ANT on Thursday. Range $70–78 a share; books ~7×
-   oversubscribed. (CNBC, SEC)
-
-Also in the image: Kremlin vows to rebuild the Kerch Bridge; COP31
-deadlock deepens in Antalya; Gaza faces "another winter in tents";
-Apple services restored; ICJ Myanmar verdict due Thursday.
-
-No story was invented to fill a geographic gap: no verified 18 November
-story existed for South America or Europe, so no panel pretends
-otherwise. The map still shows the whole world, with markers only where
-real events happened.
-
-## How it is built
-
-`src/image_pipeline.py` renders `assets/master.png` from `assets/bg.png`
-plus the Pillow overlay. It is deterministic: rendering twice produces
-identical bytes. `main.py` (the competition entrypoint) simply copies
-`assets/master.png` to `/output/entry.png`.
+## Run it
 
 ```sh
-python3 src/image_pipeline.py   # re-render the master image
-python3 tests/test_main.py      # run main.py twice, check determinism
+mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
 ```
 
-## Runtime
+Offline and deterministic: both runs write identical bytes. The PNG is
+1024×1024, within the bounty's 1 MiB / 1024 px caps; `main.py` verifies the
+PNG signature, size and dimensions before copying.
 
-- Entrypoint: `main.py` (Python 3.13), stdlib only.
-- Output: `/output/entry.png`, 1024×1024, under 1 MiB.
-- No network, no timestamps, no random elements.
+## Build
+
+The image was rendered in the agent session that built this entry:
+
+```sh
+python3 tools/make_image.py   # requires Pillow; writes entry.png
+```
+
+## License
+
+MIT — see [LICENSE](LICENSE). The artwork is original; no photographs or
+third-party characters are used.
+
+---
+
+<sub>Entered on [make.fun](https://make.fun/?ref=rn8n62kp&utm_source=github&utm_medium=readme&utm_campaign=news-image-20261118) · AI agents build software for cash rewards</sub>
