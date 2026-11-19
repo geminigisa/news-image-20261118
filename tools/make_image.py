@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Render the entry image: a one-page broadsheet for Wednesday 18 November 2026.
 
-36 stories, every one occurring or first reported on the date: 3 illustrated
-leads (one an annotated evidence map), 10 numbered grid stories, 23 numbered
+40 stories, every one occurring or first reported on the date: 3 illustrated
+leads (one an annotated evidence map), 10 numbered grid stories, 27 numbered
 briefs. Dual region/field tallies, a UTC day-by-hours ticker, a navy-gold
-key-figures band, a locator map and a DATE CHECK box. Original geometric
+key-figures band, a halftone locator map and a DATE CHECK box. Original geometric
 artwork drawn with Pillow — no photographs, no third-party art. Facts as
 reported on 18 Nov 2026 (UTC) by Reuters, AP, AFP, BBC, Al Jazeera, Euronews,
 CNBC, NPR, NASA, the European Commission, the Fed, Pew, Sotheby's, allAfrica
@@ -392,6 +392,10 @@ BRIEFS = [
     dict(n=34, region="AFRICA", city="NAIROBI", text="Last Ebola patient discharged", lat=-1.3, lon=36.8),
     dict(n=35, region="AFRICA", city="KHARTOUM", text="UN: 2,230 civilians killed in Sudan", lat=15.6, lon=32.5),
     dict(n=36, region="AMERICAS", city="DURHAM", text="Stojakovic torches Duke for 46", lat=36.0, lon=-78.9),
+    dict(n=37, region="AFRICA", city="CONAKRY", text="Mining crackdown displaces thousands", lat=9.6, lon=-13.6),
+    dict(n=38, region="AFRICA", city="KAMPALA", text="Besigye wife seeks release over health", lat=0.3, lon=32.6),
+    dict(n=39, region="AFRICA", city="ADDIS ABABA", text="Ethiopia–Eritrea clashes resume", lat=9.0, lon=38.7),
+    dict(n=40, region="AMERICAS", city="AUSTIN", text="Texas jumps Notre Dame in CFP rankings", lat=30.3, lon=-97.7),
 ]
 
 STATS = [
@@ -416,6 +420,7 @@ FIELD_OF = {
     28: "POLITICS & DIPLOMACY", 29: "JUSTICE", 30: "SCIENCE & TECH",
     31: "POLITICS & DIPLOMACY", 32: "SOCIETY & CULTURE", 33: "SOCIETY & CULTURE",
     34: "SOCIETY & CULTURE", 35: "WAR & SECURITY", 36: "SOCIETY & CULTURE",
+    37: "SOCIETY & CULTURE", 38: "JUSTICE", 39: "WAR & SECURITY", 40: "SOCIETY & CULTURE",
 }
 
 CONTINENTS = [
@@ -463,7 +468,33 @@ def draw_map(d, x, y, w, h):
         a, b = proj(lon0, glat), proj(lon1, glat)
         d.line([T(*a), T(*b)], fill=(32, 42, 62), width=S)
     for poly in CONTINENTS:
-        d.polygon([T(*proj(lon, lat)) for lon, lat in poly], fill=LAND, outline=LAND_EDGE)
+        pass  # continents rendered as a halftone dot matrix below
+
+    def inside(lon, lat, poly):
+        ins = False
+        n = len(poly)
+        for i in range(n):
+            x1, y1 = poly[i]
+            x2, y2 = poly[(i + 1) % n]
+            if (y1 > lat) != (y2 > lat):
+                xin = x1 + (lat - y1) * (x2 - x1) / (y2 - y1)
+                if lon < xin:
+                    ins = not ins
+        return ins
+
+    step = 3.6
+    gy = y + 2.0
+    while gy < y + h - 1:
+        gx = x + 2.0
+        while gx < x + w - 1:
+            lon = lon0 + (gx - x) / w * (lon1 - lon0)
+            lat = lat0 - (gy - y) / h * (lat0 - lat1)
+            for poly in CONTINENTS:
+                if inside(lon, lat, poly):
+                    d.ellipse(R(gx - 1.05, gy - 1.05, gx + 1.05, gy + 1.05), fill=LAND)
+                    break
+            gx += step
+        gy += step
     for s in BRIEFS:
         px, py = proj(s["lon"], s["lat"])
         d.ellipse(R(px - 2.2, py - 2.2, px + 2.2, py + 2.2), fill=(186, 186, 180))
@@ -511,12 +542,12 @@ def grain(img):
 
 def main():
     all_stories = LEADS + GRID + BRIEFS
-    assert len(all_stories) == 36, f"story count {len(all_stories)} != 36"
-    assert [s["n"] for s in all_stories] == list(range(1, 37))
+    assert len(all_stories) == 40, f"story count {len(all_stories)} != 40"
+    assert [s["n"] for s in all_stories] == list(range(1, 41))
     tally = {}
     for s in all_stories:
         tally[s["region"]] = tally.get(s["region"], 0) + 1
-    assert sum(tally.values()) == 36
+    assert sum(tally.values()) == 40
 
     img = Image.new("RGB", (W * S, H * S), PAPER)
     d = ImageDraw.Draw(img)
@@ -546,7 +577,7 @@ def main():
 
     # ── running head + nameplate date ──
     d.text(T(M, 16), "THE WORLD TODAY · WORLD EDITION · DAY 322 OF 2026", font=f_run, fill=GRAY)
-    d.text(T(W - M, 16), "36 STORIES · 7 REGIONS · 8 FIELDS · 13 ILLUSTRATED", font=f_run, fill=RED, anchor="ra")
+    d.text(T(W - M, 16), "40 STORIES · 7 REGIONS · 8 FIELDS · 13 ILLUSTRATED", font=f_run, fill=RED, anchor="ra")
     d.line([T(M, 27), T(W - M, 27)], fill=INK, width=3 * S)
     d.line([T(M, 31), T(W - M, 31)], fill=GOLD, width=S)
     d.text(T(W / 2, 52), "Wednesday 18 November 2026", font=f_date, fill=INK, anchor="mm")
@@ -572,7 +603,7 @@ def main():
     for s in all_stories:
         f = FIELD_OF[s["n"]]
         ftally[f] = ftally.get(f, 0) + 1
-    assert sum(ftally.values()) == 36 and len(ftally) == 8
+    assert sum(ftally.values()) == 40 and len(ftally) == 8
     d.rectangle(R(M, 116, W - M, 132), fill=INK)
     fshort = {"WAR & SECURITY": "WAR & SEC.", "POLITICS & DIPLOMACY": "POLITICS",
               "ECONOMY & LABOUR": "ECONOMY", "SOCIETY & CULTURE": "SOCIETY",
@@ -644,15 +675,15 @@ def main():
     d.ellipse(R(M + 2, 888, M + 8, 894), fill=RED)
     d.text(T(M + 12, 886), "1–13 leads & grid", font=f_foot, fill=GRAY)
     d.ellipse(R(M + 108, 888, M + 114, 894), fill=(150, 150, 145))
-    d.text(T(M + 118, 886), "14–36 briefs · positions approximate", font=f_foot, fill=GRAY)
+    d.text(T(M + 118, 886), "14–40 briefs · positions approximate", font=f_foot, fill=GRAY)
 
     bx0 = M + 396
-    d.text(T(bx0, 690), "ALSO ON WEDNESDAY — 23 MORE STORIES", font=f_sec, fill=INK)
+    d.text(T(bx0, 690), "ALSO ON WEDNESDAY — 27 MORE STORIES", font=f_sec, fill=INK)
     colw = (W - M - bx0 - 14) / 2
     for i, s in enumerate(BRIEFS):
-        col, row = divmod(i, 12)
+        col, row = divmod(i, 14)
         x = bx0 + col * (colw + 14)
-        y = 708 + row * 16.4
+        y = 700 + row * 15.0
         num = str(s["n"])
         d.text(T(x, y), num, font=f_briefb, fill=RED)
         nx = x + d.textlength(num + " ", font=f_briefb) / S

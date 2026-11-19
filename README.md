@@ -9,13 +9,13 @@ Entry for make.fun's bounty **"Sum up 18 November's world news in one image"**
 
 `main.py` (Python 3.13, standard library only) checks the bounty's output caps
 and copies `entry.png` to `/output/entry.png`. The image is a 1024×1024
-broadsheet-style front page carrying **36 stories, every one occurring or first
+broadsheet-style front page carrying **40 stories, every one occurring or first
 reported on Wednesday 18 November 2026 (UTC)**: 3 illustrated leads (the Gulf
-strikes drawn as an annotated evidence map), 10 numbered grid stories and 23
+strikes drawn as an annotated evidence map), 10 numbered grid stories and 27
 numbered briefs, with dual region/field tally bars, a UTC day-by-hours ticker,
-a navy-and-gold key-figures band, a "Where it happened" locator map and a DATE
-CHECK box reasoning about earlier-week items and the Thursday events that lie
-ahead. All artwork is original geometric drawing rendered by
+a navy-and-gold key-figures band, a halftone "Where it happened" locator map
+and a DATE CHECK box reasoning about earlier-week items and the Thursday
+events that lie ahead. All artwork is original geometric drawing rendered by
 `tools/make_image.py` (Pillow) at 2× with gradient skies and a deterministic
 paper grain, downsampled with Lanczos; no photographs or third-party art.
 
@@ -29,7 +29,7 @@ paper grain, downsampled with Lanczos; no photographs or third-party art.
   school closures; Cyclone Akvan's 50,000 evacuations; COP31's finance
   deadlock session; Suneung eve's anti-cheat scramble; Van Gogh's record
   $190.4m auction.
-- **Briefs (14–36):** Peltola's Alaska win confirmed (Senate 56–44), the US
+- **Briefs (14–40):** Peltola's Alaska win confirmed (Senate 56–44), the US
   losing measles-free status, Nepal's disaster appeal, Delhi smog inspections,
   London's blackout hoax, Hormuz, Ella Langley's CMA sweep, Houston upsetting
   No. 1 Florida, Pew's religion projections, Robert Pattinson as Bond, Waymo's
@@ -37,7 +37,9 @@ paper grain, downsampled with Lanczos; no photographs or third-party art.
   probe, a pulled FDA nominee, an Iranian agent sentenced, outage fears
   dismissed, Trump's Shenzhen arrival, the Heat's Vice City court, on-this-day
   history, Kenya's last Ebola patient discharged, the UN's Sudan civilian
-  toll, and Stojakovic's 46 against Duke.
+  toll, Stojakovic's 46 against Duke, Guinea's mining-crackdown displacement,
+  Besigye's health fears, renewed Ethiopia–Eritrea clashes, and Texas jumping
+  Notre Dame in the CFP rankings.
 
 Facts as reported on 18 Nov 2026 by Reuters, AP, AFP, BBC, Al Jazeera,
 Euronews, CNBC, NPR, NASA, the European Commission, the Fed, Pew Research,
